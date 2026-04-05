@@ -1,13 +1,268 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.home-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 10%;
+  background-color: transparent;
+  gap: 40px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: #e67e22;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #d35400;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 60px 10%;
+  text-align: center;
+}
+
+.feature-card {
+  padding: 30px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  transition: transform 0.3s;
+  background-color: whitesmoke
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+/* 1. Global Reset & Variables */
+:root {
+  --primary-color: #2c3e50;    /* Deep Navy */
+  --accent-color: #d35400;     /* Rich Orange/Amber */
+  --bg-color: #e0e0e0;         /* Grey Background */
+  --text-dark: #333333;
+  --white: #ffffff;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+/* 2. Layout Container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* 3. Modern Header */
+.header {
+  background-color: var(--white);
+  padding: 1rem 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo a {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  text-decoration: none;
+  letter-spacing: -1px;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-dark);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+.nav-links a:hover {
+  color: var(--accent-color);
+}
+
+/* 4. Main Content Area */
+.main {
+  flex: 1;
+  padding: 40px 0;
+  width: 100%;
+  background-color: var(--bg-color);
+}
+
+/* 5. Professional Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.product-card {
+  background: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+}
+
+.product-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.product-info {
+  padding: 20px;
+}
+
+.product-info h3 {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  color: var(--primary-color);
+}
+
+.price {
+  font-size: 1.4rem;
+  color: #27ae60;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+/* 6. Styled Buttons */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.edit-btn {
+  background-color: #ebf5ff;
+  color: #007bff;
+  flex: 1;
+}
+
+.edit-btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #fff5f5;
+  color: #e74c3c;
+}
+
+.delete-btn:hover {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* 7. Professional Forms */
+.form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  background: var(--white);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1.5px solid #eee;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.1);
+}
+
+button[type="submit"] {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 14px;
+  font-size: 1rem;
+}
+
+button[type="submit"]:hover {
+  background-color: #1a252f;
+}
+
+/* 8. Footer */
+.footer {
+  background-color: var(--white);
+  text-align: center;
+  padding: 30px;
+  border-top: 1px solid #eee;
+  color: #7f8c8d;
+  font-size: 0.9rem;
 }
