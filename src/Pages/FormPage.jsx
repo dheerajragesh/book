@@ -6,6 +6,14 @@ function FormPage({ setProducts }) {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
+  const normalizeText = (value) => {
+    if (!value) return value;
+    let next = value.replace(/^\s+/, "");
+    next = next.replace(/\s{2,}/g, " ");
+    if (!next) return next;
+    return next.charAt(0).toUpperCase() + next.slice(1);
+  };
+
   const validate = () => {
     let newErrors = {};
     if (!formData.name.trim()) newErrors.name = "Book title is required";
@@ -22,14 +30,20 @@ function FormPage({ setProducts }) {
       const file = files[0];
       if (file) setFormData({ ...formData, image: URL.createObjectURL(file) });
     } else {
-      setFormData({ ...formData, [name]: value });
+      const nextValue = name === "name" || name === "details" ? normalizeText(value) : value;
+      setFormData({ ...formData, [name]: nextValue });
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      setProducts((prev) => [...prev, { id: Date.now(), ...formData }]);
+      const cleaned = {
+        ...formData,
+        name: formData.name.trim(),
+        details: formData.details.trim(),
+      };
+      setProducts((prev) => [...prev, { id: Date.now(), ...cleaned }]);
       navigate("/display");
     }
   };
@@ -44,13 +58,13 @@ function FormPage({ setProducts }) {
               <form onSubmit={handleSubmit} noValidate>
                 <div className="mb-3">
                   <label className="form-label fw-bold small">Book Title</label>
-                  <input name="name" className={`form-control ${errors.name ? "is-invalid" : ""}`} onChange={handleChange} placeholder="e.g. Atomic Habits" />
+                  <input name="name" className={`form-control ${errors.name ? "is-invalid" : ""}`} value={formData.name} onChange={handleChange} placeholder="e.g. Atomic Habits" />
                   <div className="invalid-feedback">{errors.name}</div>
                 </div>
 
                 <div className="mb-3">
                   <label className="form-label fw-bold small">Description</label>
-                  <textarea name="details" className={`form-control ${errors.details ? "is-invalid" : ""}`} rows="3" onChange={handleChange} placeholder="Short summary..." />
+                  <textarea name="details" className={`form-control ${errors.details ? "is-invalid" : ""}`} rows="3" value={formData.details} onChange={handleChange} placeholder="Short summary..." />
                   <div className="invalid-feedback">{errors.details}</div>
                 </div>
 

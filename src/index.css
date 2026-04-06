@@ -52,24 +52,26 @@
   border: 1px solid #eee;
   border-radius: 10px;
   transition: transform 0.3s;
-  background-color: whitesmoke
+  background-color: whitesmoke;
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
-/* 1. Global Reset & Variables */
+
+/* Variables */
 :root {
-  --primary-color: #2c3e50;    /* Deep Navy */
-  --accent-color: #d35400;     /* Rich Orange/Amber */
-  --bg-color: #e0e0e0;         /* Grey Background */
+  --primary-color: #2c3e50;
+  --accent-color: #d35400;
+  --bg-color: #e0e0e0;
   --text-dark: #333333;
   --white: #ffffff;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   --transition: all 0.3s ease;
 }
 
+/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -83,14 +85,7 @@ body {
   line-height: 1.6;
 }
 
-/* 2. Layout Container */
-.app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* 3. Modern Header */
+/* Header */
 .header {
   background-color: var(--white);
   padding: 1rem 8%;
@@ -108,7 +103,26 @@ body {
   font-weight: 800;
   color: var(--primary-color);
   text-decoration: none;
-  letter-spacing: -1px;
+}
+
+.menu-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: transparent;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--primary-color);
 }
 
 .nav-links {
@@ -121,7 +135,6 @@ body {
   text-decoration: none;
   color: var(--text-dark);
   font-weight: 500;
-  font-size: 0.95rem;
   transition: var(--transition);
 }
 
@@ -129,15 +142,49 @@ body {
   color: var(--accent-color);
 }
 
-/* 4. Main Content Area */
+@media (max-width: 768px) {
+  .header {
+    padding: 0.75rem 6%;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    flex-direction: column;
+    gap: 0;
+    padding: 12px 8%;
+    box-shadow: var(--shadow);
+    display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .nav-links li:last-child {
+    border-bottom: none;
+  }
+}
+
+/* Main */
 .main {
   flex: 1;
   padding: 40px 0;
-  width: 100%;
-  background-color: var(--bg-color);
 }
 
-/* 5. Professional Product Grid */
+/* Product Grid */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -150,39 +197,29 @@ body {
   overflow: hidden;
   box-shadow: var(--shadow);
   transition: var(--transition);
-  border: 1px solid rgba(0,0,0,0.05);
 }
 
 .product-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
 }
 
 .product-img {
   width: 100%;
   height: 250px;
   object-fit: cover;
-  border-bottom: 1px solid #eee;
 }
 
 .product-info {
   padding: 20px;
 }
 
-.product-info h3 {
-  font-size: 1.25rem;
-  margin-bottom: 8px;
-  color: var(--primary-color);
-}
-
 .price {
   font-size: 1.4rem;
   color: #27ae60;
   font-weight: 700;
-  margin: 10px 0;
 }
 
-/* 6. Styled Buttons */
+/* Buttons */
 .actions {
   display: flex;
   gap: 10px;
@@ -195,31 +232,28 @@ button {
   border-radius: 6px;
   border: none;
   font-weight: 600;
-  transition: var(--transition);
 }
 
-.edit-btn {
-  background-color: #ebf5ff;
-  color: #007bff;
-  flex: 1;
+/* ✅ ONLY THIS PART REMOVES HOVER EFFECT */
+.edit-btn:hover,
+.edit-btn:focus,
+.edit-btn:active {
+  background-color: #0d6efd !important;
+  color: #ffffff !important;
+  border-color: #0d6efd !important;
+  box-shadow: none !important;
 }
 
-.edit-btn:hover {
-  background-color: #007bff;
-  color: white;
+.delete-btn:hover,
+.delete-btn:focus,
+.delete-btn:active {
+  background-color: #dc3545 !important;
+  color: #ffffff !important;
+  border-color: #dc3545 !important;
+  box-shadow: none !important;
 }
 
-.delete-btn {
-  background-color: #fff5f5;
-  color: #e74c3c;
-}
-
-.delete-btn:hover {
-  background-color: #e74c3c;
-  color: white;
-}
-
-/* 7. Professional Forms */
+/* Form */
 .form-container {
   max-width: 500px;
   margin: 0 auto;
@@ -235,34 +269,17 @@ input, textarea {
   margin-bottom: 20px;
   border: 1.5px solid #eee;
   border-radius: 8px;
-  font-size: 1rem;
-  transition: var(--transition);
 }
 
 input:focus, textarea:focus {
   outline: none;
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.1);
 }
 
-button[type="submit"] {
-  width: 100%;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 14px;
-  font-size: 1rem;
-}
-
-button[type="submit"]:hover {
-  background-color: #1a252f;
-}
-
-/* 8. Footer */
+/* Footer */
 .footer {
   background-color: var(--white);
   text-align: center;
   padding: 30px;
   border-top: 1px solid #eee;
-  color: #7f8c8d;
-  font-size: 0.9rem;
 }

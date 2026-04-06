@@ -7,6 +7,14 @@ function EditPage({ products, setProducts }) {
   const [formData, setFormData] = useState(null);
   const [errors, setErrors] = useState({});
 
+  const normalizeText = (value) => {
+    if (!value) return value;
+    let next = value.replace(/^\s+/, "");
+    next = next.replace(/\s{2,}/g, " ");
+    if (!next) return next;
+    return next.charAt(0).toUpperCase() + next.slice(1);
+  };
+
   useEffect(() => {
     const bookToEdit = products.find((b) => b.id === parseInt(id));
     if (bookToEdit) setFormData(bookToEdit);
@@ -23,7 +31,12 @@ function EditPage({ products, setProducts }) {
   const handleUpdate = (e) => {
     e.preventDefault();
     if (validate()) {
-      setProducts(products.map((b) => (b.id === parseInt(id) ? formData : b)));
+      const cleaned = {
+        ...formData,
+        name: formData.name.trim(),
+        details: (formData.details || "").trim(),
+      };
+      setProducts(products.map((b) => (b.id === parseInt(id) ? cleaned : b)));
       navigate("/display");
     }
   };
@@ -48,8 +61,18 @@ function EditPage({ products, setProducts }) {
                 <div className="mb-3">
                   <label className="form-label fw-bold small">Book Title</label>
                   <input className={`form-control ${errors.name ? "is-invalid" : ""}`} value={formData.name} 
-                    onChange={(e) => setFormData({...formData, name: e.target.value})} />
+                    onChange={(e) => setFormData({...formData, name: normalizeText(e.target.value)})} />
                   <div className="invalid-feedback">{errors.name}</div>
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label fw-bold small">Description</label>
+                  <textarea
+                    className="form-control"
+                    rows="3"
+                    value={formData.details || ""}
+                    onChange={(e) => setFormData({...formData, details: normalizeText(e.target.value)})}
+                  />
                 </div>
 
                 <div className="mb-4">
