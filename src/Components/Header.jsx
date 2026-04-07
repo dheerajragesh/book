@@ -1,10 +1,11 @@
 // components/Header.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../logo32.jpeg";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -16,24 +17,35 @@ function Header() {
           <span>BookStore</span>
         </Link>
       </div>
+
       <button
         type="button"
         className="menu-toggle"
-        aria-label="Toggle navigation menu"
-        aria-expanded={menuOpen}
-        aria-controls="primary-navigation"
-        onClick={() => setMenuOpen((open) => !open)}
+        onClick={() => setMenuOpen(!menuOpen)}
       >
         <span></span>
         <span></span>
         <span></span>
       </button>
+
       <nav>
-        <ul id="primary-navigation" className={`nav-links ${menuOpen ? "open" : ""}`}>
-          {/* This matches the 'path' you set in Main.jsx */}
-           <li><Link to="/" onClick={closeMenu}>Home</Link></li>
-           <li><Link to="/add" onClick={closeMenu}>Add Book</Link></li>
-          <li><Link to="/display" onClick={closeMenu}>View books</Link></li>        
+        <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
+          
+          {/* ✅ Conditional method */}
+          {location.pathname !== "/" ? (
+            <li>
+              <Link to="/" onClick={closeMenu}>Home</Link>
+            </li>
+          ) : null}
+
+          <li>
+            <Link to="/add" onClick={closeMenu}>Add Book</Link>
+          </li>
+
+          <li>
+            <Link to="/display" onClick={closeMenu}>View Books</Link>
+          </li>
+
         </ul>
       </nav>
     </header>
