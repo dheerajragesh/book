@@ -1,6 +1,7 @@
 // components/Header.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import logo from "../logo32.jpeg";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -10,7 +11,10 @@ function Header() {
   return (
     <header className="header">
       <div className="logo">
-        <Link to="/"><img src=""/>BookStore</Link>
+        <Link to="/">
+          <img src={logo} alt="Book Store logo" className="logo-image" />
+          <span>BookStore</span>
+        </Link>
       </div>
       <button
         type="button"

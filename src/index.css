@@ -6,20 +6,32 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 60px 10%;
+  padding: clamp(40px, 6vw, 60px) clamp(6%, 8vw, 10%);
   background-color: transparent;
-  gap: 40px;
+  gap: clamp(20px, 4vw, 40px);
+}
+
+.hero-content {
+  flex: 1 1 320px;
+  min-width: 0;
 }
 
 .hero-content h1 {
-  font-size: 3rem;
+  font-size: clamp(2rem, 3vw, 3rem);
   color: #2c3e50;
   margin-bottom: 20px;
 }
 
+.hero-image {
+  flex: 0 1 520px;
+  display: flex;
+  justify-content: center;
+}
+
 .hero-image img {
   width: 100%;
-  max-width: 500px;
+  max-width: clamp(300px, 40vw, 500px);
+  height: auto;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
@@ -45,6 +57,12 @@
   gap: 30px;
   padding: 60px 10%;
   text-align: center;
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  .features {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .feature-card {
@@ -99,10 +117,21 @@ body {
 }
 
 .logo a {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   font-size: 1.5rem;
   font-weight: 800;
   color: var(--primary-color);
   text-decoration: none;
+}
+
+.logo-image {
+  height: 48px;
+  width: auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 .menu-toggle {
@@ -142,13 +171,19 @@ body {
   color: var(--accent-color);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .header {
     padding: 0.75rem 6%;
   }
 
   .menu-toggle {
     display: inline-flex;
+    order: 2;
+    margin-left: auto;
+  }
+
+  .header nav {
+    order: 1;
   }
 
   .nav-links {
@@ -233,8 +268,6 @@ button {
   border: none;
   font-weight: 600;
 }
-
-/* ✅ ONLY THIS PART REMOVES HOVER EFFECT */
 .edit-btn:hover,
 .edit-btn:focus,
 .edit-btn:active {
