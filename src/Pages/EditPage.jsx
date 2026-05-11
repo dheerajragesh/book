@@ -1,184 +1,154 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import api from "../api/api";
 
-function EditPage({ products, setProducts }) {
+function EditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState(null);
-  const [errors, setErrors] = useState({});
 
-  const normalizeText = (value) => {
-    if (!value) return value;
-    let next = value.replace(/^\s+/, "");
-    next = next.replace(/\s{2,}/g, " ");
-    if (!next) return next;
-    return next.charAt(0).toUpperCase() + next.slice(1);
-  };
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    price: "",
+    image: null,
+  });
 
+  const [preview, setPreview] = useState("");
+
+  // 🔥 GET BOOK
   useEffect(() => {
-    const bookToEdit = products.find((b) => b.id === parseInt(id));
-    if (bookToEdit) setFormData(bookToEdit);
-  }, [id, products]);
+    const fetchBook = async () => {
+      try {
+        const res = await api.get(`/api/books/${id}`);
+        const book = res.data.data;
 
-  const validate = () => {
-    let newErrors = {};
+        setFormData({
+          title: book.title || book.name || "",
+          description: book.description || book.details || "",
+          price: book.price,
+          image: null,
+        });
 
-    if (!formData.name || !formData.name.trim()) {
-      newErrors.name = "Title cannot be empty";
-    }
+        setPreview(`http://${process.env.REACT_APP_API_URL}/${book.image}`);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-    if (!formData.details || !formData.details.trim()) {
-      newErrors.details = "Description is required";
-    }
+    fetchBook();
+  }, [id]);
 
-    if (!formData.price || formData.price <= 0) {
-      newErrors.price = "Enter a valid price";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleUpdate = (e) => {
+  // 🔥 UPDATE
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
-    if (validate()) {
-      const cleaned = {
-        ...formData,
-        name: formData.name.trim(),
-        details: formData.details.trim(),
-      };
+    try {
+      const token = localStorage.getItem("token");
 
-      setProducts(
-        products.map((b) =>
-          b.id === parseInt(id) ? cleaned : b
-        )
-      );
+      const form = new FormData();
+      form.append("title", formData.title);
+      form.append("name", formData.title);
+      form.append("description", formData.description);
+      form.append("details", formData.description);
+      form.append("price", formData.price);
 
+      if (formData.image) {
+        form.append("image", formData.image);
+      }
+
+      await api.put(`/api/books/${id}`, form, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      alert("Updated successfully");
       navigate("/display");
+
+    } catch (err) {
+      console.log(err);
+      alert(err.response?.data?.message || "Update failed");
     }
   };
 
-  if (!formData) return <div className="text-center py-5">Loading...</div>;
+  // 🔥 DELETE
+  const handleDelete = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      await api.delete(`/api/books/{id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      alert("Deleted successfully");
+      navigate("/display");
+
+    } catch (err) {
+      console.log(err);
+      alert("Delete failed");
+    }
+  };
 
   return (
-    <div className="container py-4">
-      <div className="row justify-content-center">
-        <div className="col-12 col-md-8 col-lg-5">
-          <div className="card shadow border-0 rounded-3">
-            <div className="card-body p-4">
-              <h3 className="text-center mb-4 fw-bold text-success">
-                Edit Book Info
-              </h3>
+    <div className="container mt-5" style={{ maxWidth: "500px" }}>
+      <h3>Edit Book</h3>
 
-              <form onSubmit={handleUpdate} noValidate>
+      <form onSubmit={handleUpdate}>
+        <input
+          className="form-control mb-2"
+          placeholder="Title"
+          value={formData.title}
+          onChange={(e) =>
+            setFormData({ ...formData, title: e.target.value })
+          }
+        />
 
-                <div className="mb-3 text-center">
-                  <img
-                    src={formData.image}
-                    alt="Current"
-                    className="rounded mb-2 shadow-sm"
-                    style={{ height: "150px", objectFit: "cover" }}
-                  />
-                  <input
-                    type="file"
-                    className="form-control form-control-sm"
-                    accept="image/*"
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        image: URL.createObjectURL(e.target.files[0]),
-                      })
-                    }
-                  />
-                </div>
+        <textarea
+          className="form-control mb-2"
+          placeholder="Description"
+          value={formData.description}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.target.value })
+          }
+        />
 
-                {/* TITLE */}
-                <div className="mb-3">
-                  <label className="form-label fw-bold small">
-                    Book Title
-                  </label>
-                  <input
-                    className={`form-control ${
-                      errors.name ? "is-invalid" : ""
-                    }`}
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        name: normalizeText(e.target.value),
-                      })
-                    }
-                  />
-                  <div className="invalid-feedback">
-                    {errors.name}
-                  </div>
-                </div>
+        <input
+          type="number"
+          className="form-control mb-2"
+          placeholder="Price"
+          value={formData.price}
+          onChange={(e) =>
+            setFormData({ ...formData, price: e.target.value })
+          }
+        />
 
-                {/* DESCRIPTION (FIXED) */}
-                <div className="mb-3">
-                  <label className="form-label fw-bold small">
-                    Description
-                  </label>
-                  <textarea
-                    className={`form-control ${
-                      errors.details ? "is-invalid" : ""
-                    }`}
-                    rows="3"
-                    value={formData.details || ""}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        details: normalizeText(e.target.value),
-                      })
-                    }
-                  />
-                  <div className="invalid-feedback">
-                    {errors.details}
-                  </div>
-                </div>
+        {/* IMAGE */}
+        {preview && (
+          <img src={preview} alt="" className="mb-2" width="100%" />
+        )}
 
-                {/* PRICE */}
-                <div className="mb-4">
-                  <label className="form-label fw-bold small">
-                    Price (₹)
-                  </label>
-                  <input
-                    type="number"
-                    className={`form-control ${
-                      errors.price ? "is-invalid" : ""
-                    }`}
-                    value={formData.price}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        price: e.target.value,
-                      })
-                    }
-                  />
-                  <div className="invalid-feedback">
-                    {errors.price}
-                  </div>
-                </div>
+        <input
+          type="file"
+          className="form-control mb-3"
+          onChange={(e) =>
+            setFormData({ ...formData, image: e.target.files[0] })
+          }
+        />
 
-                <div className="d-flex gap-2">
-                  <button className="btn btn-success flex-grow-1 fw-bold">
-                    Update Book
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-light"
-                    onClick={() => navigate("/display")}
-                  >
-                    Cancel
-                  </button>
-                </div>
+        <button className="btn btn-success w-100 mb-2">
+          Update
+        </button>
 
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+        <button
+          type="button"
+          onClick={handleDelete}
+          className="btn btn-danger w-100"
+        >
+          Delete
+        </button>
+      </form>
     </div>
   );
 }

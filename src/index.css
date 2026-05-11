@@ -348,3 +348,148 @@ body[data-bs-theme="dark"] {
 body[data-bs-theme="dark"] .card {
   background-color: #1e1e1e;
 }
+   .modern-input {
+          border-radius: 12px;
+          padding: 10px;
+          transition: all 0.3s ease;
+        }
+
+        .modern-input:focus {
+          box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+          border-color: #667eea;
+        }
+
+        .btn-gradient {
+          border-radius: 12px;
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          color: white;
+          border: none;
+          transition: all 0.3s ease;
+        }
+
+        .btn-gradient:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .preview-top {
+          max-height: 180px;
+          width: 100%;
+          object-fit: cover;
+          border-radius: 15px;
+          transition: transform 0.3s ease;
+        }
+
+        .preview-top:hover {
+          transform: scale(1.03);
+        }
+
+        /* 🎉 SUCCESS ANIMATION */
+        .success-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9999;
+          animation: fadeIn 0.3s ease;
+        }
+
+        .success-box {
+          background: #fff;
+          padding: 30px 40px;
+          border-radius: 20px;
+          text-align: center;
+          animation: popIn 0.4s ease;
+          box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .checkmark {
+          font-size: 55px;
+          color: #28a745;
+          margin-bottom: 10px;
+          animation: bounce 0.6s ease;
+        }
+
+        .success-box h4 {
+          margin: 0;
+          font-weight: 700;
+          color: #333;
+        }
+
+        @keyframes popIn {
+          from { transform: scale(0.6); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+          0% { transform: scale(0.3); opacity: 0; }
+          50% { transform: scale(1.2); }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      body.light-mode {
+  background-color: #f8f9fa;
+  color: #000;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #fff;
+}
+
+/* Smooth transition */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Optional: improve Bootstrap cards in dark mode */
+.dark-mode .card {
+  background-color: #1e1e1e;
+  color: #fff;
+  border: 1px solid #333;
+}
+
+/* Buttons stay readable */
+.dark-mode .btn-light {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+}
+.dark-mode .card {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+.dark-mode .form-control {
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+.dark-mode .form-control::placeholder {
+  color: #aaa;
+}
+/* Background Blur when Modal is active */
+.modal-backdrop.show {
+  backdrop-filter: blur(8px); /* This creates the blur */
+  background-color: rgba(0, 0, 0, 0.4); /* Darkens the background slightly */
+}
+
+/* Optional: Custom 'Bookish' Button Style */
+.btn-book {
+  background-color: #5a3e2b !important;
+  color: white !important;
+  border: none !important;
+  transition: 0.3s ease;
+}
+
+.btn-book:hover {
+  background-color: #3e2a1d !important;
+  transform: translateY(-1px);
+}
